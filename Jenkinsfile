@@ -10,13 +10,19 @@ pipeline {
 
       stage('Checkout') {
          steps {
-            git 'https://github.com/akshay-rahangdale/freight-tracking-application'
+            git 'https://github.com/akshay-rahangdale/freight-tracking-application.git'
          }
       }
 
       stage('Build'){
          steps{
-            sh 'mvn clean package -DskipTests'
+            sh '''
+            docker run --rm \
+              -v $(pwd):/app \
+              -w /app \
+              maven:3.9.9-eclipse-temurin-21 \
+              mvn clean package -DskipTests
+            '''
          }
       }
 
@@ -40,9 +46,9 @@ pipeline {
 
       stage('Push Image'){
          steps{
-            sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
-            sh 'docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest'
-            sh 'docker push ${IMAGE_NAME}:latest'
+            sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+            sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
+            sh "docker push ${IMAGE_NAME}:latest"
          }
       }
 
