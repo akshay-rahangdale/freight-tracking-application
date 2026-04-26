@@ -10,7 +10,7 @@ pipeline {
 
       stage('Checkout') {
          steps {
-            git 'https://github.com/freight-tracking-application'
+            git 'https://github.com/akshay-rahangdale/freight-tracking-application'
          }
       }
 
