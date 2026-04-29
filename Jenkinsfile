@@ -59,16 +59,16 @@ pipeline {
           }
       }
 
-      stage('Deploy') {
-          steps {
-              sh '''
-              cd /home/ubuntu/freight-app || cd ~/freight-app
+       stage('Deploy') {
+           steps {
+               sh '''
+               cd /var/lib/jenkins/freight-app
 
-              docker-compose pull
-              docker-compose up -d
-              '''
-          }
-      }
+               docker-compose pull
+               docker-compose up -d
+               '''
+           }
+       }
 
   }
 }
